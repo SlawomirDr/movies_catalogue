@@ -5,14 +5,14 @@ app = Flask(__name__)
 
 import tmdb_client
 
-@app.route('/')
+@app.route("/")
 def homepage():
     movie_lists = ["now_playing", "popular", "top_rated", "upcoming"]
-    selected_list = request.args.get('list_type', "popular")
+    selected_list = request.args.get('list_type')
     if selected_list not in movie_lists:
         selected_list = "popular"
     movies = tmdb_client.get_movies(how_many=8, list_type=selected_list)
-    return render_template("homepage.html", movies=movies, movie_lists=movie_lists, list_type=selected_list)
+    return render_template("homepage.html", movies=movies, movie_lists=movie_lists, selkected_list=selected_list)
 
 
 @app.context_processor

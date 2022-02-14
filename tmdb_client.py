@@ -34,9 +34,12 @@ def get_backdrop_url(backdrop_api_path, size="w780"):
 
 
 def get_movies(how_many, list_type):
-    selected_list = request.args.get('list_type', "popular")
-    data = get_movies_list(list_type=selected_list)
-    return data["results"][:how_many][(list_type)]
+   # selected_list = request.args.get('list_type', "popular")
+   # movie_types = ['popular', 'top rated', 'upcoming', 'now playing']
+   # if not list_type in movie_types:
+   #     list_type = 'popular'
+    data = get_movies_list(list_type)
+    return data["results"][:how_many]
 
 
 def get_single_movie(movie_id):
