@@ -48,11 +48,10 @@ def get_movies(how_many, list_type):
 
 def get_single_movie(movie_id):
     return call_tmdb_api(f"movie/{movie_id}")
-    
 
 
 def get_single_movie_cast(movie_id):
-    return call_tmdb_api(f"movie/{movie_id}/credits") #["cast"]
+    return call_tmdb_api(f"movie/{movie_id}/credits")
     
 
 def get_movie_images(movie_id):

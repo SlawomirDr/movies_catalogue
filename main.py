@@ -27,17 +27,21 @@ def utility_processor():
     def tmdb_post_url(path,size):
         return tmdb_client.get_backdrop_url(path, size)
     return {"tmdb_post_url": tmdb_post_url}
+            
 
 
 @app.route("/movie/<movie_id>")
 def movie_details(movie_id):
     details = tmdb_client.get_single_movie(movie_id)
-    cast = tmdb_client.get_single_movie_cast(movie_id)
+    cast = tmdb_client.get_single_movie_cast(movie_id)["cast"]
     movie_images = tmdb_client.get_movie_images(movie_id)
-    selected_backdrop = random.choice(movie_images['backdrops'])
-    return render_template("movie_details.html", movie=details, cast=cast, selected_backdrop=selected_backdrop)
+    return render_template("movie_details.html", movie=details, cast=cast, selected_backdrop=movie_images)
 
-
+@app.context_processor
+def utility_processor():
+    def tmdb_backdrop_url(path, size):
+        return tmdb_client.get_backdrop_url(path, size)  
+    return {"tmdb_backdrop_url": tmdb_backdrop_url}  
 
 
 if __name__ == '__main__':
