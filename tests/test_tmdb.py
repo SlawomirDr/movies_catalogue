@@ -3,8 +3,10 @@ import requests
 import random
 
 import tmdb_client
+from main import app
 
 from unittest.mock import Mock
+import pytest
 
 API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjhhMzYyYWNjOTkyMmFjZjZmMDQyMjg0MWY5MDQyZCIsInN1YiI6IjYxZjk2Yjk3Y2NiMTVmMDBmYWY3YjZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TXxYbka8zfyBryDlpse5tbyTG1GETiOrFqXYNIJwGNc"
 
@@ -68,3 +70,31 @@ def test_get_single_movie_cast(monkeypatch):
    monkeypatch.setattr("tmdb_client.requests.get", requests_mock)
    single_movie_cast = tmdb_client.get_single_movie_cast(movie_id=1111)
    assert single_movie_cast == mock_single_movie_cast
+
+
+app.testing=True
+client = app.test_client()
+
+def test_homepage(monkeypatch):
+   api_mock = Mock(return_value={'results': []})
+   monkeypatch.setattr("tmdb_client.call_tmdb_api", api_mock)
+
+   with app.test_client() as client:
+       response = client.get('/')
+       assert response.status_code == 200
+       api_mock.assert_called_once_with('movie/popular')
+
+
+@pytest.mark.parametrize('list_type', (
+  ('upcoming'),
+  ('top_rated'),
+  ('popular'),
+))
+def test_homepage_list_types(monkeypatch, list_type):
+   api_mock = Mock(return_value={'results': []})
+   monkeypatch.setattr("tmdb_client.call_tmdb_api", api_mock)
+
+   with app.test_client() as client:
+       response = client.get('/')
+       assert response.status_code == 200
+       api_mock.assert_called_once_with(f'movie/{list_type}')
