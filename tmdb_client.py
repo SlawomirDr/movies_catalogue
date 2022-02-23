@@ -2,7 +2,9 @@ from flask import request
 import requests 
 import random
 
-API_TOKEN = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZjhhMzYyYWNjOTkyMmFjZjZmMDQyMjg0MWY5MDQyZCIsInN1YiI6IjYxZjk2Yjk3Y2NiMTVmMDBmYWY3YjZjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.TXxYbka8zfyBryDlpse5tbyTG1GETiOrFqXYNIJwGNc"
+import os
+API_TOKEN = os.environ.get("TMDB_API_TOKEN", "")
+
 
 #def get_popular_movies():
  #   endpoint = "https://api.themoviedb.org/3/movie/popular"
