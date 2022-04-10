@@ -12,13 +12,9 @@
             
             <div class="col-lg-12 mb-4" >
                 {% for value in movie_lists %}
-                    {% if "GET" '/' == "GET" '/value' %}
-                        <a href="{{ url_for('homepage', list_type=value) }}" class="btn btn-outline-info active" role="button" aria-pressed="true">
-                            {{ value.capitalize()|replace("_", " ") }} </a> 
-                    {% else %}
-                        <a href="{{ url_for('homepage', list_type=value) }}" class="btn btn-outline-info" role="button" aria-pressed="true">
-                            {{ value.capitalize()|replace("_", " ") }} </a> 
-                    {% endif %} 
+                    
+                        <a href="{{ url_for('homepage', list_type=value) }}" class="btn btn-outline-info {{'active' if selected_list == value}} btn-group-toggle " data-toggle="buttons" aria-disabled="true">{{ value.capitalize()|replace("_", " ") }} </a> 
+                    
                 {% endfor %}
             </div>
             
